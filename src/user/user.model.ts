@@ -1,14 +1,4 @@
 import mongoose, { Schema } from "mongoose";
-const validator: any = require("mongoose-validators");
-
-// interface User {
-//   email: string;
-//   password: string;
-//   full_name: string;
-//   address: string;
-//   logIp: string[];
-//   masterkey: string;
-// }
 
 export interface User extends mongoose.Document {
   email: string;
@@ -19,13 +9,9 @@ export interface User extends mongoose.Document {
   masterkey: string;
 }
 
-// interface UserInterface extends mongoose.Model<User> {
-//   build(attr: User): User;
-// }
-
 export const UserSchema = new Schema(
   {
-    email: { type: String, required: true, validate: validator.isEmail() },
+    email: { type: String, required: true },
     password: { type: String, default: null, select: false },
     full_name: { type: String, required: true },
     address: { type: Schema.Types.ObjectId, ref: "Address" },
@@ -34,6 +20,3 @@ export const UserSchema = new Schema(
   },
   { timestamps: true }
 );
-
-// const User = mongoose.model<UserInterface>("User", UserSchema);
-// export { User };

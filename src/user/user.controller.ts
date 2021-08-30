@@ -25,14 +25,18 @@ export class UserController {
     @Body("full_name") inputFullName: string
     // @Body("address") inputAddress: string
   ) {
-    const createUser = await this.UserSrv.createUser({
-      email: inputEmail,
-      password: inputPassword,
-      full_name: inputFullName,
-      // address: inputAddress,
-    });
-    console.log(createUser);
-    return createUser;
+    try {
+      const validator: any = require("mongoose-validators");
+      const createUser = await this.UserSrv.createUser({
+        email: validator.isEmail(inputEmail),
+        password: inputPassword,
+        full_name: inputFullName,
+        // address: inputAddress,
+      });
+      return createUser;
+    } catch (err) {
+      return err
+    }
   }
   // @Patch
   // @Delete
