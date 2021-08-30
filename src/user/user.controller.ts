@@ -23,7 +23,6 @@ export class UserController {
     @Body("email") inputEmail: string,
     @Body("password") inputPassword: string,
     @Body("full_name") inputFullName: string
-    // @Body("address") inputAddress: string
   ) {
     try {
       const validator: any = require("mongoose-validators");
@@ -31,7 +30,6 @@ export class UserController {
         email: validator.isEmail(inputEmail),
         password: inputPassword,
         full_name: inputFullName,
-        // address: inputAddress,
       });
       return createUser;
     } catch (err) {
