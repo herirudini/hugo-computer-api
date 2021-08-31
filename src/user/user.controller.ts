@@ -4,15 +4,18 @@ import {
   Get,
   Patch,
   Post,
+  Request,
   Body,
   Param,
+  UseGuards,
 } from "@nestjs/common";
 import { UserService } from "./user.service";
-import bcrypt from "bcrypt";
+import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
 
 @Controller("user")
 export class UserController {
   constructor(private readonly UserSrv: UserService) {}
+  
   @Get()
   getAllUser() {
     return this.UserSrv.getAllUser();
@@ -33,9 +36,18 @@ export class UserController {
       });
       return createUser;
     } catch (err) {
-      return err
+      return err;
     }
   }
-  // @Patch
+
+  @UseGuards(JwtAuthGuard)
+  @Patch("change-name")
+  async changeFullName(
+    @Request() req,
+    @Body("full_name") inputFullName: string
+  ) {
+    console.log(req.user)
+    return this.UserSrv.changeFullName(req.user, inputFullName);
+  }
   // @Delete
 }

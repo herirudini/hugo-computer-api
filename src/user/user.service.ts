@@ -6,18 +6,28 @@ import { User } from "./user.model";
 
 @Injectable()
 export class UserService {
-  constructor(
-    @InjectModel('User') private readonly userModel: Model<User>,
-  ) {}
+  constructor(@InjectModel("User") private readonly userModel: Model<User>) {}
 
   getAllUser() {
-    let response = this.userModel.find()
+    const response = this.userModel.find();
     return response;
   }
 
   createUser(data: object) {
-    let response = this.userModel.create(data)
+    const response = this.userModel.create(data);
     return response as object;
   }
 
+  changeFullName(user_id: string, full_name: string) {
+    const response = this.userModel.findByIdAndUpdate(
+      user_id,
+      { full_name },
+      { new: true }
+    );
+    return response;
+  }
+
+  checkUser(email: string) {
+    return this.userModel.findOne({ email });
+  }
 }
